@@ -9,7 +9,7 @@
       {{ post.caption }}
       <br />
       <!-- TODO Implement n days ago -->
-      <time class="luna-date-text">{{ post.date }}</time>
+      <time class="luna-date-text">{{ dateString }}</time>
     </div>
   </div>
 </template>
@@ -29,6 +29,11 @@ export default {
           date: "APRIL 21"
         };
       }
+    }
+  },
+  computed: {
+    dateString() {
+      return new Date(this.post.date).toDateString();
     }
   }
 };

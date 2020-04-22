@@ -11,12 +11,10 @@
 <script>
 import Header from "./components/Header";
 import Post from "./components/Post";
-import Editor from './components/Editor';
+import Editor from "./components/Editor";
 
 import "./styles/luna-container";
 import "./styles/universal";
-
-import { POSTS } from "./data/dummy-data";
 
 export default {
   name: "App",
@@ -27,8 +25,23 @@ export default {
   },
   data: function() {
     return {
-      posts: POSTS
+      posts: null
     };
+  },
+  mounted() {
+    this.$http
+      .get("https://lunagram-server.firebaseio.com/post.json")
+      .then(resp => {
+        return resp.json();
+      })
+      .then(data => {
+        const resultArray = [];
+        for (let key in data) {
+          resultArray.unshift(data[key]);
+        }
+        console.log(resultArray);
+        this.posts = resultArray;
+      });
   }
 };
 </script>
