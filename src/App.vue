@@ -1,28 +1,53 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <luna-header></luna-header>
+    <main class="luna-container">
+      <luna-editor></luna-editor>
+      <luna-post v-for="post in posts" :key="post" :post="post"></luna-post>
+    </main>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Header from "./components/Header";
+import Post from "./components/Post";
+import Editor from "./components/Editor";
+
+import "./styles/luna-container";
+import "./styles/universal";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    lunaHeader: Header,
+    lunaPost: Post,
+    lunaEditor: Editor
+  },
+  data: function() {
+    return {
+      posts: null
+    };
+  },
+  mounted() {
+    this.$http
+      .get("https://lunagram-server.firebaseio.com/post.json")
+      .then(resp => {
+        return resp.json();
+      })
+      .then(data => {
+        const resultArray = [];
+        for (let key in data) {
+          resultArray.unshift(data[key]);
+        }
+        console.log(resultArray);
+        this.posts = resultArray;
+      });
   }
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+main {
+  padding-top: 30px;
 }
 </style>
