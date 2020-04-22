@@ -2,6 +2,7 @@
   <div id="app">
     <luna-header></luna-header>
     <main class="luna-container">
+      <luna-editor></luna-editor>
       <luna-post v-for="post in posts" :key="post" :post="post"></luna-post>
     </main>
   </div>
@@ -10,6 +11,7 @@
 <script>
 import Header from "./components/Header";
 import Post from "./components/Post";
+import Editor from './components/Editor';
 
 import "./styles/luna-container";
 import "./styles/universal";
@@ -20,7 +22,8 @@ export default {
   name: "App",
   components: {
     lunaHeader: Header,
-    lunaPost: Post
+    lunaPost: Post,
+    lunaEditor: Editor
   },
   data: function() {
     return {

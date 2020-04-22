@@ -3,7 +3,7 @@
     <div class="card-body">
       <a href>{{ post.userName }}</a>
     </div>
-    <img class="card-image" :src="post.imgSrc" alt="image" />
+    <img class="card-img" :src="post.imgSrc" alt="image" />
     <div class="card-body">
       <a href>{{ post.userName }}</a>
       {{ post.caption }}
@@ -35,13 +35,12 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  font-size: 14px;
-  margin-bottom: 60px;
-}
-
 .luna-date-text {
   font-size: 11px;
   color: #8e8e8e;
+}
+
+.card-img {
+  border-radius: 0;
 }
 </style>
