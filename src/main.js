@@ -9,7 +9,6 @@ Vue.config.productionTip = false;
 Vue.use(VueResource);
 
 // Initialize firebase
-// TODO Move firebaseconfig to .env
 var firebaseConfig = process.env.VUE_APP_FIREBASE_CONFIG;
 firebase.initializeApp(firebaseConfig);
 
