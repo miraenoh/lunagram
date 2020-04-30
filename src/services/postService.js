@@ -1,15 +1,8 @@
-import * as firebase from "firebase";
-
-import * as properties from "../properties";
-
-// Initialize firebase
-export const initFirebase = () => {
-  firebase.initializeApp(properties.FIREBASE_CONFIG);
-};
+import firebase from "firebase";
 
 // Get all posts from the Firebase realtime database
 export async function getAllPosts() {
-  const database = firebase.app().database();
+  const database = firebase.database();
 
   const snapshot = await database.ref("/post").once("value");
 
@@ -25,7 +18,7 @@ export async function getAllPosts() {
 
 // Upload a file to the Firebase storage
 export async function uploadFile(filePath, file, fileName) {
-  let storage = firebase.app().storage();
+  let storage = firebase.storage();
   let ref = storage.ref().child(filePath + "/" + fileName + ".jpg");
 
   let snapshot = await ref.put(file);
@@ -35,7 +28,7 @@ export async function uploadFile(filePath, file, fileName) {
 }
 
 export async function postObject(path, data) {
-  const database = firebase.app().database();
+  const database = firebase.database();
   let ref = database.ref().child(path);
 
   let generatedKey = (await ref.push(data)).key;
