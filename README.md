@@ -1,5 +1,12 @@
 # lunagram
 
+## Version history
+
+## v0.1
+* Updated on 04/22/2020
+* Anyone can **post a picture** with a caption as an anonymous user.
+* Posting and file uploading is done by **Firebase**
+
 ## Project setup
 ```
 npm install
