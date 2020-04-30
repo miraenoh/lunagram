@@ -1,0 +1,63 @@
+<template>
+  <main class="luna-container">
+    <div class="card">
+      <div class="card-header">
+        Login
+      </div>
+      <div class="card-body">
+        <form action="">
+          <div class="form-group">
+            <input
+              type="email"
+              v-model="email"
+              placeholder="Email"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              @keyup.enter="login"
+              v-model="password"
+              placeholder="Password"
+              class="form-control"
+            />
+          </div>
+          <button type="button" @click="login" class="btn btn-primary col-12">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+</template>
+
+<script>
+import firebase from "firebase";
+
+export default {
+  data: function() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    login() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then((credentials) => {
+          alert("Hello, " + credentials.user.displayName + "!");
+          location.replace("/");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+  },
+  mounted() {
+    firebase.auth().signOut();
+  }
+};
+</script>

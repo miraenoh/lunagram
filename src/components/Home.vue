@@ -33,9 +33,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-main {
-  padding-top: 30px;
-}
-</style>
