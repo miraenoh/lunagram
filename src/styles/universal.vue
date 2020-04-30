@@ -4,6 +4,10 @@
   --luna-lightgray: #dfdfdf;
 }
 
+main {
+  padding-top: 30px;
+}
+
 a {
   font-weight: 600;
   color: inherit;
