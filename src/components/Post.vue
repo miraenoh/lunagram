@@ -22,6 +22,7 @@ export default {
       //   TODO When there's no posts
       default: function() {
         return {
+          id: "randomstring",
           userName: "ananymous",
           imgSrc:
             "https://images.unsplash.com/photo-1563432057907-b6c11bf80702?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80",

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import * as firebase from "firebase";
+import * as postService from "../services/postService";
 
 import IconPlus from "./icons/IconPlus";
 
@@ -72,42 +72,26 @@ export default {
       this.selectedFile = file;
       this.tempimgSrc = URL.createObjectURL(file);
     },
-    uploadImage() {
+    async uploadImage() {
       if (this.selectedFile === null) {
         return alert("Please select an image.");
       }
 
       this.loading = true;
 
+      // Upload the selected image to Firebase storage
       this.post.date = new Date().getTime();
-      let imageRef = firebase
-        .storage()
-        .ref()
-        .child("posts/" + this.post.date + ".jpg");
-      let uploadTask = imageRef.put(this.selectedFile).then(snapshot => {
-        snapshot.ref.getDownloadURL().then(url => {
-          this.post.imgSrc = url;
-          this.uploadPost();
-        });
-      });
-    },
-    uploadPost() {
-      this.$http
-        .post("https://lunagram-server.firebaseio.com/post.json", this.post)
-        .then(
-          resp => {
-            console.log(resp);
-            if (resp.status === 200) {
-              // success
-              this.loading = false;
-              location.reload(true);
-            }
-          },
-          err => {
-            console.log(err);
-            alert("Failed to post.");
-          }
-        );
+      this.post.imgSrc = await postService.uploadFile(
+        "posts",
+        this.selectedFile,
+        this.post.date
+      );
+
+      // Post with the imgSrc we just received
+      let key = await postService.postObject("post", this.post);
+
+      this.loading = false;
+      location.reload(true);
     }
   }
 };

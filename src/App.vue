@@ -3,7 +3,7 @@
     <luna-header></luna-header>
     <main class="luna-container">
       <luna-editor></luna-editor>
-      <luna-post v-for="post in posts" :key="post" :post="post"></luna-post>
+      <luna-post v-for="post in posts" :key="post.id" :post="post"></luna-post>
     </main>
   </div>
 </template>
@@ -12,6 +12,8 @@
 import Header from "./components/Header";
 import Post from "./components/Post";
 import Editor from "./components/Editor";
+
+import * as postService from "./services/postService";
 
 import "./styles/luna-container";
 import "./styles/universal";
@@ -29,19 +31,9 @@ export default {
     };
   },
   mounted() {
-    this.$http
-      .get("https://lunagram-server.firebaseio.com/post.json")
-      .then(resp => {
-        return resp.json();
-      })
-      .then(data => {
-        const resultArray = [];
-        for (let key in data) {
-          resultArray.unshift(data[key]);
-        }
-        console.log(resultArray);
-        this.posts = resultArray;
-      });
+    postService.getAllPosts().then((res) => {
+      this.posts = res;
+    });
   }
 };
 </script>
