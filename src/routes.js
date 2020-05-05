@@ -4,6 +4,6 @@ import SignUp from "./components/auth/SignUp.vue";
 
 export const routes = [
   { path: "", component: Home },
-  { path: "/login", component: Login },
-  { path: "/signup", component: SignUp }
+  { path: "/auth/login", component: Login },
+  { path: "/auth/signup", component: SignUp }
 ];

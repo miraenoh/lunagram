@@ -29,6 +29,11 @@
         </form>
       </div>
     </div>
+    <div class="card">
+      <div class="card-body">
+        Don't have an account? <router-link to="/auth/signup">Sign up</router-link>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -61,3 +66,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.card {
+  margin-bottom: 10px;
+}
+</style>

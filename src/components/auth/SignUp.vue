@@ -37,6 +37,11 @@
         </form>
       </div>
     </div>
+    <div class="card">
+      <div class="card-body">
+        Have an account? <router-link to="/auth/login">Log in</router-link>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -95,3 +100,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.card {
+  margin-bottom: 10px;
+}
+</style>

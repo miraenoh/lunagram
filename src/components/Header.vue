@@ -7,10 +7,8 @@
       </a>
       <!-- Temp -->
       <div>
-        <span @click="checkState" class="padded-text">state</span>
         <span @click="logout" class="padded-text">logout</span>
-        <router-link to="login" class="padded-text">login</router-link>
-        <router-link to="signup" class="padded-text">sign up</router-link>
+        <span class="padded-text">{{ username }}</span>
       </div>
     </div>
   </nav>
@@ -21,27 +19,25 @@ import firebase from "firebase";
 export default {
   data: function() {
     return {
-      isUser: false,
-      user: ""
+      username: ""
     };
   },
   methods: {
-    checkState() {
-      let user = firebase.auth().currentUser;
-      if (user) {
-        alert("You're currently logged in as " + user.displayName + ".");
-      } else {
-        alert("You're currently NOT logged in.");
-      }
-    },
     logout() {
       let user = firebase.auth().currentUser;
       if (user) {
         firebase.auth().signOut();
-        alert("You're successfully logged out. Bye, " + user.displayName + "!");
       } else {
         alert("You're not logged in now!");
       }
+    }
+  },
+  created() {
+    let user = firebase.auth().currentUser;
+    if (user) {
+      this.username = user.displayName;
+    } else {
+      this.$router.push("/auth/login");
     }
   }
 };

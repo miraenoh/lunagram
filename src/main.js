@@ -25,15 +25,18 @@ firebase
     if (user) {
       // User is signed in.
       var displayName = user.displayName;
-      var email = user.email;
+      /* var email = user.email;
       var emailVerified = user.emailVerified;
       var photoURL = user.photoURL;
       var isAnonymous = user.isAnonymous;
       var uid = user.uid;
-      var providerData = user.providerData;
-      console.log("logged in");
+      var providerData = user.providerData; */
+      console.log(displayName + " logged in");
     } else {
       console.log("signed out");
+      if (!window.location.pathname.includes("/auth")) {
+        router.replace("/auth/login");
+      }
     }
 
     if (!app) {
