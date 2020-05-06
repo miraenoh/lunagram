@@ -5,7 +5,11 @@
         <span class="luna-editor-title">New Post</span>
         <div>
           <!-- TODO change bootstrap primary color -->
-          <div class="spinner-border spinner-border-sm text-primary" role="status" v-if="loading">
+          <div
+            class="spinner-border spinner-border-sm text-primary"
+            role="status"
+            v-if="loading"
+          >
             <span class="sr-only">Loading...</span>
           </div>
           <button class="btn" @click="uploadImage">Share</button>
@@ -17,7 +21,11 @@
         <!-- Preview -->
         <img v-if="tempimgSrc" :src="tempimgSrc" class="card-img" />
         <!-- Uploader -->
-        <div v-else class="card-img bg-light luna-image-uploader" @click="$refs.file.click()">
+        <div
+          v-else
+          class="card-img bg-light luna-image-uploader"
+          @click="$refs.file.click()"
+        >
           <!-- TODO Cancel image button -->
           <input
             type="file"
@@ -55,7 +63,7 @@ export default {
       post: {
         userName: "ananymous",
         caption: "",
-        imgSrc: "",
+        imgSrc: [],
         date: null
       },
       selectedFile: null,
@@ -81,10 +89,8 @@ export default {
 
       // Upload the selected image to Firebase storage
       this.post.date = new Date().getTime();
-      this.post.imgSrc = await postService.uploadFile(
-        "posts",
-        this.selectedFile,
-        this.post.date
+      this.post.imgSrc.push(
+        await postService.uploadFile("posts", this.selectedFile, this.post.date)
       );
 
       // Post with the imgSrc we just received
