@@ -1,19 +1,18 @@
 import firebase from "firebase";
+import axios from "axios";
 
 // Get all posts from the Firebase realtime database
 export async function getAllPosts() {
-  const database = firebase.database();
+  try {
+    const response = await axios.get(
+      "https://us-central1-lunagram-server.cloudfunctions.net/getPosts"
+    );
 
-  const snapshot = await database.ref("/post").once("value");
-
-  const resultArray = [];
-  snapshot.forEach((post) => {
-    let data = { id: post.key };
-    Object.assign(data, post.val());
-    resultArray.unshift(data);
-  });
-
-  return resultArray;
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 // Upload a file to the Firebase storage

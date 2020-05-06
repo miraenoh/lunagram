@@ -12,7 +12,7 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <button class="btn" @click="uploadImage">Share</button>
+          <button class="btn" @click="uploadPost">Share</button>
         </div>
       </div>
     </div>
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import firebase from "firebase";
+
 import * as postService from "../services/postService";
 
 import IconPlus from "./icons/IconPlus";
@@ -61,7 +63,7 @@ export default {
   data: function() {
     return {
       post: {
-        userName: "ananymous",
+        userId: null,
         caption: "",
         imgSrc: [],
         date: null
@@ -80,7 +82,7 @@ export default {
       this.selectedFile = file;
       this.tempimgSrc = URL.createObjectURL(file);
     },
-    async uploadImage() {
+    async uploadPost() {
       if (this.selectedFile === null) {
         return alert("Please select an image.");
       }
@@ -94,6 +96,7 @@ export default {
       );
 
       // Post with the imgSrc we just received
+      this.post.userId = firebase.auth().currentUser.uid;
       let key = await postService.postObject("post", this.post);
 
       this.loading = false;
