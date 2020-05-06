@@ -5,10 +5,14 @@
         <span class="luna-editor-title">New Post</span>
         <div>
           <!-- TODO change bootstrap primary color -->
-          <div class="spinner-border spinner-border-sm text-primary" role="status" v-if="loading">
+          <div
+            class="spinner-border spinner-border-sm text-primary"
+            role="status"
+            v-if="loading"
+          >
             <span class="sr-only">Loading...</span>
           </div>
-          <button class="btn" @click="uploadImage">Share</button>
+          <button class="btn" @click="uploadPost">Share</button>
         </div>
       </div>
     </div>
@@ -17,7 +21,11 @@
         <!-- Preview -->
         <img v-if="tempimgSrc" :src="tempimgSrc" class="card-img" />
         <!-- Uploader -->
-        <div v-else class="card-img bg-light luna-image-uploader" @click="$refs.file.click()">
+        <div
+          v-else
+          class="card-img bg-light luna-image-uploader"
+          @click="$refs.file.click()"
+        >
           <!-- TODO Cancel image button -->
           <input
             type="file"
@@ -45,6 +53,8 @@
 </template>
 
 <script>
+import firebase from "firebase";
+
 import * as postService from "../services/postService";
 
 import IconPlus from "./icons/IconPlus";
@@ -53,9 +63,9 @@ export default {
   data: function() {
     return {
       post: {
-        userName: "ananymous",
+        userId: null,
         caption: "",
-        imgSrc: "",
+        imgSrc: [],
         date: null
       },
       selectedFile: null,
@@ -72,7 +82,7 @@ export default {
       this.selectedFile = file;
       this.tempimgSrc = URL.createObjectURL(file);
     },
-    async uploadImage() {
+    async uploadPost() {
       if (this.selectedFile === null) {
         return alert("Please select an image.");
       }
@@ -81,13 +91,12 @@ export default {
 
       // Upload the selected image to Firebase storage
       this.post.date = new Date().getTime();
-      this.post.imgSrc = await postService.uploadFile(
-        "posts",
-        this.selectedFile,
-        this.post.date
+      this.post.imgSrc.push(
+        await postService.uploadFile("posts", this.selectedFile, this.post.date)
       );
 
       // Post with the imgSrc we just received
+      this.post.userId = firebase.auth().currentUser.uid;
       let key = await postService.postObject("post", this.post);
 
       this.loading = false;
