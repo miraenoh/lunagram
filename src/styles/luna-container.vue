@@ -9,14 +9,12 @@
 
 /* 640 = 600 + 20 * 2, 975 = 935 + 20 * 2 */
 
-/* xl & lg */
 @media (min-width: 601px) {
   .luna-container {
     max-width: 600px;
   }
 }
 
-/* after adding side widgets */
 /* xl & lg */
 /* @media (min-width: 992px) {
   .luna-container {

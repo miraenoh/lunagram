@@ -87,7 +87,7 @@
     "getter-return": 2,
 
     // Disallow await inside of loops
-    "no-await-in-loop": 2,
+    "no-await-in-loop": 1,
 
     // Disallow comparing against -0
     "no-compare-neg-zero": 2,
@@ -112,10 +112,10 @@
 
     // Return inside each then() to create readable and reusable Promise chains.
     // Forces developers to return console logs and http calls in promises. 
-    "promise/always-return": 2,
+    "promise/always-return": 1,
 
     //Enforces the use of catch() on un-returned promises
-    "promise/catch-or-return": 2,
+    "promise/catch-or-return": 1,
 
     // Warn against nested then() or catch() statements
     "promise/no-nesting": 1
