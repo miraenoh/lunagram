@@ -53,8 +53,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
-
+import * as authService from "../services/authService";
 import * as postService from "../services/postService";
 
 import IconPlus from "./icons/IconPlus";
@@ -96,7 +95,7 @@ export default {
       );
 
       // Post with the imgSrc we just received
-      this.post.userId = firebase.auth().currentUser.uid;
+      this.post.userId = authService.getCurrentUser().uid;
       let key = await postService.postObject("post", this.post);
 
       this.loading = false;

@@ -15,7 +15,8 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import * as authService from "../services/authService";
+
 export default {
   data: function() {
     return {
@@ -24,16 +25,16 @@ export default {
   },
   methods: {
     logout() {
-      let user = firebase.auth().currentUser;
+      let user = authService.getCurrentUser();
       if (user) {
-        firebase.auth().signOut();
+        authService.logOut();
       } else {
         alert("You're not logged in now!");
       }
     }
   },
   created() {
-    let user = firebase.auth().currentUser;
+    let user = authService.getCurrentUser();
     if (user) {
       this.username = user.displayName;
     } else {
