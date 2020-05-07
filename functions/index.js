@@ -23,38 +23,31 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
 
 exports.getPosts = functions.https.onRequest((req, res) => {
   return cors(req, res, async () => {
-    const database = admin.database();
-    const snapshot = await database.ref("/post").once("value");
+    try {
+      const database = admin.database();
+      const snapshot = await database.ref("/post").once("value");
 
-    // TODO Check if posts are ordered properly (because of async)
-    let resultArray = [];
-    const n = snapshot.numChildren();
-    let i = 0;
-    snapshot.forEach((post) => {
-      let data = { id: post.key };
-      // console.log(post);
-      Object.assign(data, post.val());
+      // TODO Check if posts are ordered properly (because of async)
+      let results = [];
+      snapshot.forEach((post) => {
+        let data = { id: post.key };
+        Object.assign(data, post.val());
+        results.unshift(data);
+      });
 
-      admin
-        .auth()
-        .getUser(data.userId)
-        .then((user) => {
-          data.userName = user.displayName;
-          resultArray.unshift(data);
-        })
-        .catch((error) => {
+      // Add username to each result
+      for (const result of results) {
+        try {
+          let user = await admin.auth().getUser(result.userId);
+          result.userName = user.displayName;
+        } catch (error) {
           console.error(error);
-        })
-        .then(() => {
-          ++i;
-          if (i >= n) {
-            // The loop is finished
-            return res.status(200).send(resultArray);
-          }
-        });
-    });
-
-    // If forEach is not finished properly
-    return res.status(500);
+          throw error;
+        }
+      }
+      return res.status(200).send(results);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
   });
 });
