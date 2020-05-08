@@ -4,6 +4,10 @@
   --luna-lightgray: #dfdfdf;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 main {
   padding-top: 30px;
 }
