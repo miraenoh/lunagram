@@ -53,10 +53,10 @@
 </template>
 
 <script>
-import * as authService from "../services/authService";
-import * as postService from "../services/postService";
+import * as authService from "../../services/authService";
+import * as postService from "../../services/postService";
 
-import IconPlus from "./icons/IconPlus";
+import IconPlus from "../icons/IconPlus";
 
 export default {
   data: function() {
