@@ -27,7 +27,6 @@ exports.getPosts = functions.https.onRequest((req, res) => {
       const database = admin.database();
       const snapshot = await database.ref("/post").once("value");
 
-      // TODO Check if posts are ordered properly (because of async)
       let results = [];
       snapshot.forEach((post) => {
         let data = { id: post.key };
@@ -42,12 +41,72 @@ exports.getPosts = functions.https.onRequest((req, res) => {
           result.userName = user.displayName;
         } catch (error) {
           console.error(error);
-          throw error;
+          return res.status(500).send();
         }
       }
       return res.status(200).send(results);
     } catch (error) {
       return res.status(500).send(error.message);
+    }
+  });
+});
+
+exports.getPostListByUid = functions.https.onRequest((req, res) => {
+  return cors(req, res, async () => {
+    try {
+      const uid = req.query.uid;
+
+      const ref = admin.database().ref("/post");
+      const snapshot = await ref
+        .orderByChild("userId")
+        .equalTo(uid)
+        .once("value");
+
+      let results = [];
+      snapshot.forEach((post) => {
+        let data = { id: post.key };
+        // TODO handle only imgSrc instead of all data
+        Object.assign(data, post.val());
+        results.unshift(data);
+      });
+
+      // Add username to each result
+      for (const result of results) {
+        try {
+          let user = await admin.auth().getUser(result.userId);
+          result.userName = user.displayName;
+        } catch (error) {
+          console.error(error);
+          return res.status(500).send();
+        }
+      }
+      return res.status(200).send(results);
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  });
+});
+
+exports.getUserByUsername = functions.https.onRequest((req, res) => {
+  return cors(req, res, async () => {
+    const username = req.query.username;
+
+    let ref = admin.database().ref("user");
+    try {
+      const snapshot = await ref
+        .orderByChild("name")
+        .equalTo(username)
+        .once("value");
+
+      if (snapshot.val() !== null) {
+        const uid = Object.keys(snapshot.val())[0];
+        return res.status(200).send(uid);
+      } else {
+        return res.status(500).send();
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send();
     }
   });
 });
