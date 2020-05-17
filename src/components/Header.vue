@@ -2,13 +2,17 @@
   <nav class="navbar sticky-top">
     <div class="luna-container">
       <!-- TODO navbar logo link -->
-      <a href>
-        <img src="../assets/nav_logo.png" alt />
-      </a>
-      <!-- Temp -->
+      <router-link to="/">
+        <a>
+          <img src="../assets/nav_logo.png" />
+        </a>
+      </router-link>
       <div>
         <span @click="logout" class="padded-text">logout</span>
-        <span class="padded-text">{{ username }}</span>
+        <user-link :user-name="username" class="padded-text" />
+        <!--         <router-link :to="username">
+          <span class="padded-text">{{ username }}</span>
+        </router-link> -->
       </div>
     </div>
   </nav>
@@ -17,7 +21,12 @@
 <script>
 import * as authService from "../services/authService";
 
+import UserLink from "./user/UserLink";
+
 export default {
+  components: {
+    userLink: UserLink
+  },
   data: function() {
     return {
       username: ""

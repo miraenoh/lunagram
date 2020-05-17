@@ -96,7 +96,7 @@ export default {
 
       // Post with the imgSrc we just received
       this.post.userId = authService.getCurrentUser().uid;
-      let key = await postService.postObject("post", this.post);
+      let key = await postService.post(this.post);
 
       this.loading = false;
       location.reload(true);
