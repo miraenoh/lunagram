@@ -16,9 +16,9 @@
 }
 
 /* xl & lg */
-/* @media (min-width: 992px) {
+@media (min-width: 992px) {
   .luna-container {
     max-width: 935px;
   }
-} */
+}
 </style>
