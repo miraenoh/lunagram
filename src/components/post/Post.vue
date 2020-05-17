@@ -1,12 +1,11 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <!-- TODO link the user's feed -->
-      <a href>{{ post.userName }}</a>
+      <user-link :user-name="post.userName" />
     </div>
     <img class="card-img" :src="post.imgSrc" alt="image" />
     <div class="card-body">
-      <a href>{{ post.userName }}</a>
+      <user-link :user-name="post.userName" />
       {{ post.caption }}
       <br />
       <!-- TODO Implement n days ago -->
@@ -16,11 +15,15 @@
 </template>
 
 <script>
+import UserLink from "../user/UserLink";
+
 export default {
+  components: {
+    userLink: UserLink
+  },
   props: {
     post: {
       type: Object,
-      //   TODO When there's no posts
       default: function() {
         return {
           id: "randomstring",
