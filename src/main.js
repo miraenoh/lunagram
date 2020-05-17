@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import App from "./App.vue";
 
 import firebase from "firebase";
+import axios from "axios";
 
 import { routes } from "./routes";
 import { FIREBASE_CONFIG } from "./properties";
@@ -14,6 +15,8 @@ const router = new VueRouter({
   routes,
   mode: "history"
 });
+
+Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false;
 

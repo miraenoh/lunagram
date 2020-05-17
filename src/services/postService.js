@@ -1,12 +1,31 @@
 import firebase from "firebase";
 import axios from "axios";
 
+import * as databaseService from "./databaseService";
+
+import { LUNA_CLOUD_FUNCTIONS_URL } from "../properties";
+
 // Get all posts from the Firebase realtime database
 export async function getAllPosts() {
   try {
-    const response = await axios.get(
-      "https://us-central1-lunagram-server.cloudfunctions.net/getPosts"
-    );
+    const url = LUNA_CLOUD_FUNCTIONS_URL.concat("/getPosts");
+    const response = await axios.get(url);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getPostListsByUid(uid) {
+  try {
+    const url = LUNA_CLOUD_FUNCTIONS_URL.concat("/getPostListByUid");
+    const response = await axios.get(url, {
+      params: {
+        uid: uid
+      }
+    });
 
     return response.data;
   } catch (error) {
@@ -26,11 +45,8 @@ export async function uploadFile(filePath, file, fileName) {
   return url;
 }
 
-export async function postObject(path, data) {
-  const database = firebase.database();
-  let ref = database.ref().child(path);
-
-  let generatedKey = (await ref.push(data)).key;
+export async function post(data) {
+  let generatedKey = await databaseService.postObject("post", data);
 
   return generatedKey;
 }
