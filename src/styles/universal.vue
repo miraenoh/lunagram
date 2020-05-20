@@ -26,4 +26,37 @@ a:hover {
   font-size: 14px;
   margin-bottom: 60px;
 }
+
+/* For modals */
+.luna-modal {
+  position: fixed;
+  z-index: 101;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.luna-modal-content {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* For square images */
+.luna-square:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.luna-square-img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 </style>

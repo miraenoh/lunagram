@@ -1,25 +1,21 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <user-link :user-name="post.userName" />
+      <luna-user-link :user-name="post.userName" />
     </div>
     <img class="card-img" :src="post.imgSrc" alt="image" />
-    <div class="card-body">
-      <user-link :user-name="post.userName" />
-      {{ post.caption }}
-      <br />
-      <!-- TODO Implement n days ago -->
-      <time class="luna-date-text">{{ dateString }}</time>
-    </div>
+    <luna-comment :comment="post" class="card-body" />
   </div>
 </template>
 
 <script>
 import UserLink from "../user/UserLink";
+import Comment from "./Comment";
 
 export default {
   components: {
-    userLink: UserLink
+    lunaUserLink: UserLink,
+    lunaComment: Comment
   },
   props: {
     post: {
@@ -36,21 +32,11 @@ export default {
         };
       }
     }
-  },
-  computed: {
-    dateString() {
-      return new Date(this.post.date).toDateString();
-    }
   }
 };
 </script>
 
 <style scoped>
-.luna-date-text {
-  font-size: 11px;
-  color: #8e8e8e;
-}
-
 .card-img {
   border-radius: 0;
 }

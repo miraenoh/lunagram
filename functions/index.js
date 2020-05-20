@@ -65,8 +65,13 @@ exports.getPostListByUid = functions.https.onRequest((req, res) => {
       let results = [];
       snapshot.forEach((post) => {
         let data = { id: post.key };
-        // TODO handle only imgSrc instead of all data
-        Object.assign(data, post.val());
+
+        const postVal = post.val();
+        Object.assign(data, {
+          imgSrc: postVal.imgSrc,
+          userId: postVal.userId
+        });
+
         results.unshift(data);
       });
 

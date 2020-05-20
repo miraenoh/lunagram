@@ -59,6 +59,7 @@ nav {
   height: 54px;
   border: solid var(--luna-lightgray);
   border-width: 0px 0px 1px 0px;
+  z-index: 1;
 }
 
 /* Temporary */
