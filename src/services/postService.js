@@ -18,6 +18,22 @@ export async function getAllPosts() {
   }
 }
 
+export async function getPostByPid(pid) {
+  try {
+    const url = LUNA_CLOUD_FUNCTIONS_URL.concat("/getPostByPid");
+    const response = await axios.get(url, {
+      params: {
+        pid: pid
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 export async function getPostListsByUid(uid) {
   try {
     const url = LUNA_CLOUD_FUNCTIONS_URL.concat("/getPostListByUid");
